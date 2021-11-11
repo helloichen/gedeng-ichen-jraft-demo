@@ -8,8 +8,9 @@
         <version>2.4.12</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
-    <groupId>com.gedeng</groupId>
-    <artifactId>ichen-jraft-demo</artifactId>
+
+    <groupId>com.github.ichen</groupId>
+    <artifactId>jraft-demo</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>ichen-jraft-demo</name>
 
