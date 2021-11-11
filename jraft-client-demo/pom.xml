@@ -6,7 +6,6 @@
         <groupId>com.gedeng</groupId>
         <artifactId>ichen-jraft-demo</artifactId>
         <version>0.0.1-SNAPSHOT</version>
-        <relativePath/> <!-- lookup parent from repository -->
     </parent>
 
     <artifactId>jraft-client-demo</artifactId>

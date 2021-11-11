@@ -28,14 +28,14 @@ import java.io.IOException;
  * Counter snapshot file.
  *
  * @author boyan (boyan@alibaba-inc.com)
- *
+ * <p>
  * 2018-Apr-09 5:14:55 PM
  */
 public class CounterSnapshotFile {
 
     private static final Logger LOG = LoggerFactory.getLogger(CounterSnapshotFile.class);
 
-    private String              path;
+    private String path;
 
     public CounterSnapshotFile(String path) {
         super();

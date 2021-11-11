@@ -26,7 +26,7 @@ import com.gedeng.jraft.server.demo.counter.CounterService;
  * IncrementAndGetRequest processor.
  *
  * @author boyan (boyan@alibaba-inc.com)
- *
+ * <p>
  * 2018-Apr-09 5:43:57 PM
  */
 public class IncrementAndGetRequestProcessor implements RpcProcessor<IncrementAndGetRequest> {

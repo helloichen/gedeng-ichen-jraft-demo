@@ -6,12 +6,12 @@
         <groupId>com.gedeng</groupId>
         <artifactId>ichen-jraft-demo</artifactId>
         <version>0.0.1-SNAPSHOT</version>
-        <relativePath/> <!-- lookup parent from repository -->
     </parent>
+
     <artifactId>jraft-server-demo</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>jraft-server-demo</name>
-    <description>Demo project for Spring Boot</description>
+
     <properties>
         <java.version>1.8</java.version>
     </properties>
