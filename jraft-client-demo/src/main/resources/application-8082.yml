@@ -1,0 +1,16 @@
+server:
+  port: 7082
+
+logging:
+  file:
+    path: ./log
+
+spring:
+  application:
+    name: jraft
+
+jraft:
+  dataPath: f:\\temp\\server8082
+  groupId: election_test
+  serverId: 127.0.0.1:8082
+  initConf: 127.0.0.1:8081,127.0.0.1:8082,127.0.0.1:8083
