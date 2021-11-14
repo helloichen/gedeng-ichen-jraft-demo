@@ -52,7 +52,8 @@ public class ElectionOnlyStateMachine extends StateMachineAdapter {
     public void onLeaderStart(final long term) {
         super.onLeaderStart(term);
         this.leaderTerm.set(term);
-        for (final LeaderStateListener listener : this.listeners) { // iterator the snapshot
+        // iterator the snapshot
+        for (final LeaderStateListener listener : this.listeners) {
             listener.onLeaderStart(term);
         }
     }
@@ -62,7 +63,8 @@ public class ElectionOnlyStateMachine extends StateMachineAdapter {
         super.onLeaderStop(status);
         final long oldTerm = leaderTerm.get();
         this.leaderTerm.set(-1L);
-        for (final LeaderStateListener listener : this.listeners) { // iterator the snapshot
+        // iterator the snapshot
+        for (final LeaderStateListener listener : this.listeners) {
             listener.onLeaderStop(oldTerm);
         }
     }
