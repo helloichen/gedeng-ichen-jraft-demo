@@ -16,7 +16,6 @@
  */
 package com.github.ichen.jraft.client.demo.election;
 
-import com.alipay.sofa.jraft.entity.PeerId;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
@@ -95,15 +94,12 @@ public class ElectionBootstrap {
         electionOpts.setServerAddress(serverId);
         electionOpts.setInitialServerAddressList(initConf);
 
-        final ElectionNode node = new ElectionNode();
+        final ElectionNode node = ElectionNode.getElectionNodeInstance();
         node.addLeaderStateListener(new LeaderStateListener() {
 
             @Override
             public void onLeaderStart(long leaderTerm) {
-                PeerId serverId = node.getNode().getLeaderId();
-                String ip = serverId.getIp();
-                int port = serverId.getPort();
-                System.out.println("[ElectionBootstrap] Leader's ip is: " + ip + ", port: " + port);
+                System.out.println("[ElectionBootstrap] Leader is: " + serverId);
                 System.out.println("[ElectionBootstrap] Leader start on term: " + leaderTerm);
             }
 

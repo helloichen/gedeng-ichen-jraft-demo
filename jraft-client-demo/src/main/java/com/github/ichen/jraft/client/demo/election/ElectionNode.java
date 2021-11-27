@@ -41,13 +41,25 @@ import java.util.concurrent.CopyOnWriteArrayList;
 public class ElectionNode implements Lifecycle<ElectionNodeOptions> {
 
     private static final Logger LOG = LoggerFactory.getLogger(ElectionNode.class);
-
+    private static ElectionNode instance;
     private final List<LeaderStateListener> listeners = new CopyOnWriteArrayList<>();
     private RaftGroupService raftGroupService;
     private Node node;
     private ElectionOnlyStateMachine fsm;
 
     private boolean started;
+
+    private ElectionNode() {
+    }
+
+    static ElectionNode getElectionNodeInstance() {
+        if (instance == null) {
+            synchronized (ElectionNode.class) {
+                instance = new ElectionNode();
+            }
+        }
+        return instance;
+    }
 
     @Override
     public boolean init(final ElectionNodeOptions opts) {
