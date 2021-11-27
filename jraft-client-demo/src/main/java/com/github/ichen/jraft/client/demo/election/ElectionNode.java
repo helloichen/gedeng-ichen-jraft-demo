@@ -45,14 +45,13 @@ public class ElectionNode implements Lifecycle<ElectionNodeOptions> {
     private final List<LeaderStateListener> listeners = new CopyOnWriteArrayList<>();
     private RaftGroupService raftGroupService;
     private Node node;
+    private ElectionOnlyStateMachine fsm;
 
-    private static ElectionOnlyStateMachine fsm;
-
-    private static boolean started;
+    private boolean started;
 
     @Override
     public boolean init(final ElectionNodeOptions opts) {
-        if (started) {
+        if (this.started) {
             LOG.info("[ElectionNode: {}] already started.", opts.getServerAddress());
             return true;
         }
@@ -61,8 +60,8 @@ public class ElectionNode implements Lifecycle<ElectionNodeOptions> {
         if (nodeOpts == null) {
             nodeOpts = new NodeOptions();
         }
-        fsm = new ElectionOnlyStateMachine(this.listeners);
-        nodeOpts.setFsm(fsm);
+        this.fsm = new ElectionOnlyStateMachine(this.listeners);
+        nodeOpts.setFsm(this.fsm);
         final Configuration initialConf = new Configuration();
         if (!initialConf.parse(opts.getInitialServerAddressList())) {
             throw new IllegalArgumentException("Fail to parse initConf: " + opts.getInitialServerAddressList());
@@ -81,6 +80,7 @@ public class ElectionNode implements Lifecycle<ElectionNodeOptions> {
         nodeOpts.setLogUri(Paths.get(dataPath, "log").toString());
         // Metadata, required
         nodeOpts.setRaftMetaUri(Paths.get(dataPath, "meta").toString());
+        // nodeOpts.setSnapshotUri(Paths.get(dataPath, "snapshot").toString());
 
         final String groupId = opts.getGroupId();
         final PeerId serverId = new PeerId();
@@ -91,14 +91,14 @@ public class ElectionNode implements Lifecycle<ElectionNodeOptions> {
         this.raftGroupService = new RaftGroupService(groupId, serverId, nodeOpts, rpcServer);
         this.node = this.raftGroupService.start();
         if (this.node != null) {
-            started = true;
+            this.started = true;
         }
-        return started;
+        return this.started;
     }
 
     @Override
     public void shutdown() {
-        if (!started) {
+        if (!this.started) {
             return;
         }
         if (this.raftGroupService != null) {
@@ -109,7 +109,7 @@ public class ElectionNode implements Lifecycle<ElectionNodeOptions> {
                 ThrowUtil.throwException(e);
             }
         }
-        started = false;
+        this.started = false;
         LOG.info("[ElectionNode] shutdown successfully: {}.", this);
     }
 
@@ -117,7 +117,7 @@ public class ElectionNode implements Lifecycle<ElectionNodeOptions> {
         return node;
     }
 
-    public static ElectionOnlyStateMachine getFsm() {
+    public ElectionOnlyStateMachine getFsm() {
         return fsm;
     }
 
@@ -125,8 +125,8 @@ public class ElectionNode implements Lifecycle<ElectionNodeOptions> {
         return started;
     }
 
-    public static boolean isLeader() {
-        return fsm != null && fsm.isLeader();
+    public boolean isLeader() {
+        return this.fsm.isLeader();
     }
 
     public void addLeaderStateListener(final LeaderStateListener listener) {
